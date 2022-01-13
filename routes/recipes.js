@@ -7,9 +7,6 @@ router.get("/", (req, res, next) => {
     const namesArr = []
     data.recipes.forEach((recipe) => namesArr.push(recipe.name))
     res.status(200).send({recipeNames: namesArr})
-    
-    // res.status(200).send(data.recipes)
-    
 })
 
 
