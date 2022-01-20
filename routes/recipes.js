@@ -24,6 +24,7 @@ router.get("/details/:recipeName", (req, res) => {
     res.status(200).json({details: {ingredients: recipeDetails.ingredients, numSteps: recipeDetails.instructions.length}})
 })
 
+//add new recipes to data.json
 router.post("/", (req, res) => {
     const newRecipe = {
         name: req.body.name,
@@ -42,6 +43,34 @@ router.post("/", (req, res) => {
         res.status(201).json("new recipe added!" + newRecipeData)
     }
     
+})
+
+//update recipe details
+router.put("/", (req, res) => {
+    const foundRecipe = data.recipes.find((recipe) => recipe.name === req.body.name)
+    //if recipe doesn't exist, return a 404 error
+    if(!foundRecipe){
+        res.status(404).json({error: 'Recipe does not exist: ' + req.body.name})
+    } else {
+        //put request data in a new object
+        const updatedRecipe = {
+            name: req.body.name,
+            instructions: [req.body.instructions],
+            ingredients: [req.body.ingredients]
+        }
+        //json.stringify the recipe data
+        let newRecipeData = JSON.stringify(updatedRecipe, null, 2);
+        //create a variable to read data.json
+        const fileData = JSON.parse(fs.readFileSync('data.json'))
+        //edit the targeted data in data.json
+        for(let i=0;i < data.recipes.length;i++){
+            if(data.recipes[i].name === updatedRecipe.name){
+                fileData.recipes.slice(i, 1, JSON.parse(newRecipeData))
+                fs.writeFileSync('data.json', JSON.stringify(fileData, null, 2))
+                res.status(200).json('recipe updated:' + JSON.parse(newRecipeData))
+            }
+        }
+    }
 })
 
 module.exports = router;

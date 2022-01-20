@@ -57,6 +57,21 @@
         "cut the bagel",
         "spread butter on bagel"
       ]
+    },
+    {
+      "name": "Uyou Stew",
+      "ingredients": [
+        "Hu",
+        "He",
+        "Hai",
+        "Ha",
+        "Hu"
+      ],
+      "instructions": [
+        "Boil em",
+        "Mash em",
+        "Stick em in a stew"
+      ]
     }
   ]
 }
