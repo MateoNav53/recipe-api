@@ -50,12 +50,16 @@
     {
       "name": "butteredBagel",
       "ingredients": [
-        "1 bagel",
-        "butter"
+        [
+          "1 bagel",
+          "2 tbsp butter"
+        ]
       ],
       "instructions": [
-        "cut the bagel",
-        "spread butter on bagel"
+        [
+          "cut the bagel",
+          "spread butter on bagel"
+        ]
       ]
     },
     {
