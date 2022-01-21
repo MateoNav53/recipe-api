@@ -62,15 +62,36 @@ router.put("/", (req, res) => {
         let updatedRecipeData = JSON.stringify(updatedRecipe, null, 2);
         //create a variable to read data.json
         const fileData = JSON.parse(fs.readFileSync('data.json'))
-        //edit the targeted data in data.json
+        //iterate over fileData
         for(let i=0;i < fileData.recipes.length;i++){
+            //if the iteration name matches our updated recipe
             if(fileData.recipes[i].name === updatedRecipe.name){
+                //replace that array item
                 fileData.recipes.splice(i, 1, JSON.parse(updatedRecipeData))
+                //write the data to data.json 
                 fs.writeFileSync('data.json', JSON.stringify(fileData, null, 2))
                 res.status(204).json('recipe updated:' + JSON.parse(updatedRecipeData))
             }
         }
     }
+})
+
+//delete a recipe
+router.delete("/:recipeName", (req, res) => {
+    const recipeDetails = data.recipes.find((recipe) => recipe.name === req.params.recipeName)
+    if(!recipeDetails){
+        res.json('Recipe not found, or spelled incorrectly')
+    } else {
+        const fileData = JSON.parse(fs.readFileSync('data.json'))
+        for(let i=0;i < fileData.recipes.length;i++){
+            if(fileData.recipes[i].name === recipeDetails.name){
+                fileData.recipes.splice(i, 1)
+                fs.writeFileSync('data.json', JSON.stringify(fileData, null, 2))
+                res.status(200).json('Recipe deleted')
+            }
+        }
+    }
+    
 })
 
 module.exports = router;
